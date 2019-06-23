@@ -1,11 +1,11 @@
-package duda;
+package duda.dao;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-class School {
+public class School {
 
     @Id
     @GeneratedValue
