@@ -2,6 +2,7 @@ package duda;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 class School {
@@ -25,6 +26,9 @@ class School {
     @NotNull(message="Max Number Of Pupils cannot be missing or empty")
     private Integer maxNumberOfPupils;
 
+    @OneToMany(mappedBy = "school")
+    private List<Pupil> pupils;
+
     public Long getId() {
         return id;
     }
@@ -39,6 +43,14 @@ class School {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Pupil> getPupils() {
+        return pupils;
+    }
+
+    public void setPupils(List<Pupil> pupils) {
+        this.pupils = pupils;
     }
 
     public Double getLat() {

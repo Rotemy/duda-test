@@ -10,18 +10,29 @@ public class Pupil {
     @GeneratedValue
     private Long id;
 
-    @NotNull(message="Latitude cannot be missing or empty")
+    @NotNull(message = "Latitude cannot be missing or empty")
     private Double lat;
 
-    @NotNull(message="Longitude cannot be missing or empty")
+    @NotNull(message = "Longitude cannot be missing or empty")
     private Double lon;
 
-    @NotNull(message="Grades cannot be missing or empty")
+    @NotNull(message = "Grades cannot be missing or empty")
     @OneToMany(mappedBy = "pupil", cascade = CascadeType.ALL)
     private List<PupilGrade> grades;
 
-    @NotNull(message="Name cannot be missing or empty")
+    @NotNull(message = "Name cannot be missing or empty")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    private School school;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "pupilA", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pupilB",
+                    referencedColumnName = "id"))
+    private List<Pupil> friends;
 
     public Long getId() {
         return id;
@@ -43,8 +54,24 @@ public class Pupil {
         return lon;
     }
 
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
     public void setLon(Double lon) {
         this.lon = lon;
+    }
+
+    public List<Pupil> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Pupil> friends) {
+        this.friends = friends;
     }
 
     public List<PupilGrade> getGrades() {
@@ -72,15 +99,15 @@ class PupilGrade {
     @GeneratedValue
     private Long id;
 
-    @NotNull(message="Course name cannot be missing or empty")
+    @NotNull(message = "Course name cannot be missing or empty")
     private String courseName;
 
-    @NotNull(message="Grade cannot be missing or empty")
-    private Integer grade;
+    @NotNull(message = "Grade cannot be missing or empty")
+    private String grade;
 
-    @NotNull(message="Pupil cannot be missing or empty")
+    @NotNull(message = "Pupil cannot be missing or empty")
     @ManyToOne
-    @JoinColumn(name="pupil_id")
+    @JoinColumn(name = "pupil_id")
     private Pupil pupil;
 
     public String getCourseName() {
@@ -91,11 +118,11 @@ class PupilGrade {
         this.courseName = courseName;
     }
 
-    public Integer getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 
